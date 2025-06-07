@@ -1,0 +1,13 @@
+name = "KabschAlgorithm"
+uuid = "f04b186e-52d5-4f75-9fe8-bf69181293d4"
+authors = ["Anton Oresten <antonoresten@gmail.com> and contributors"]
+version = "1.0.0-DEV"
+
+[compat]
+julia = "1.10"
+
+[extras]
+Test = "8dfed614-e22c-5e08-85e1-65c5234f0b40"
+
+[targets]
+test = ["Test"]
