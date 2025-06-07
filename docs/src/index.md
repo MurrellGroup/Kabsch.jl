@@ -1,14 +1,14 @@
 ```@meta
-CurrentModule = KabschAlgorithm
+CurrentModule = Kabsch
 ```
 
-# KabschAlgorithm
+# Kabsch
 
-Documentation for [KabschAlgorithm](https://github.com/MurrellGroup/KabschAlgorithm.jl).
+Documentation for [Kabsch](https://github.com/MurrellGroup/Kabsch.jl).
 
 ```@index
 ```
 
 ```@autodocs
-Modules = [KabschAlgorithm]
+Modules = [Kabsch]
 ```

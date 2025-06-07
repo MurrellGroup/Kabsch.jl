@@ -1,14 +1,14 @@
-using KabschAlgorithm
+using Kabsch
 using Documenter
 
-DocMeta.setdocmeta!(KabschAlgorithm, :DocTestSetup, :(using KabschAlgorithm); recursive=true)
+DocMeta.setdocmeta!(Kabsch, :DocTestSetup, :(using Kabsch); recursive=true)
 
 makedocs(;
-    modules=[KabschAlgorithm],
+    modules=[Kabsch],
     authors="Anton Oresten <antonoresten@gmail.com> and contributors",
-    sitename="KabschAlgorithm.jl",
+    sitename="Kabsch.jl",
     format=Documenter.HTML(;
-        canonical="https://MurrellGroup.github.io/KabschAlgorithm.jl",
+        canonical="https://MurrellGroup.github.io/Kabsch.jl",
         edit_link="main",
         assets=String[],
     ),
@@ -18,6 +18,6 @@ makedocs(;
 )
 
 deploydocs(;
-    repo="github.com/MurrellGroup/KabschAlgorithm.jl",
+    repo="github.com/MurrellGroup/Kabsch.jl",
     devbranch="main",
 )

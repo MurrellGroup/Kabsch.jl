@@ -73,6 +73,6 @@ jobs:
         shell: julia --project=docs --color=yes {0}
         run: |
           using Documenter: DocMeta, doctest
-          using KabschAlgorithm
-          DocMeta.setdocmeta!(KabschAlgorithm, :DocTestSetup, :(using KabschAlgorithm); recursive=true)
-          doctest(KabschAlgorithm)
+          using Kabsch
+          DocMeta.setdocmeta!(Kabsch, :DocTestSetup, :(using Kabsch); recursive=true)
+          doctest(Kabsch)
