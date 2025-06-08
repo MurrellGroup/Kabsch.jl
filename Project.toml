@@ -17,6 +17,7 @@ KabschCUDAExt = "CUDA"
 KabschStaticArraysExt = "StaticArrays"
 
 [compat]
+CUDA = "5"
 LinearAlgebra = "1"
 NNlib = "0.9"
 StaticArrays = "1"
