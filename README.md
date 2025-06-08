@@ -67,3 +67,6 @@ Q_gpu = CUDA.rand(3, 50, 100)
 
 R_gpu, Pt_gpu, Qt_gpu = kabsch(P_gpu, Q_gpu)
 ```
+
+## See also
+- `rmsd` and `superimpose!` in [BioStructures.jl](https://github.com/BioJulia/BioStructures.jl)
