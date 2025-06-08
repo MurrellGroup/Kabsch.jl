@@ -7,7 +7,7 @@ using Manifolds: Rotations
 
 using StaticArrays
 
-ENV["KABSCH_TEST_CUDA"] = "true"
+# ENV["KABSCH_TEST_CUDA"] = "true"
 const KABSCH_TEST_CUDA = get(ENV, "KABSCH_TEST_CUDA", "false") == "true"
 KABSCH_TEST_CUDA && begin using Pkg; Pkg.add("CUDA") end
 
