@@ -11,6 +11,8 @@ function Kabsch.batched_svd(A::CuArray{<:AbstractFloat,3})
     return U, V
 end
 
+# taken from https://github.com/MurrellGroup/RotationMap.jl/blob/main/src/RotationMap.jl
+# written by bicycle1885
 function Kabsch.batched_det(A::CuArray{<:AbstractFloat,3})
     @assert size(A, 1) == 3 && size(A, 2) == 3
     function kernel!(out, A)
