@@ -1,12 +1,16 @@
 module Kabsch
 
 using LinearAlgebra
-using StaticArrays
 using Statistics
 using NNlib: batched_transpose, ⊠
 
-export kabsch, centroid
+export rmsd, kabsch, centroid
 export superimpose
+
+function rmsd(P::AbstractMatrix{<:Number}, Q::AbstractMatrix{<:Number})
+    size(P) == size(Q) || throw(ArgumentError("P and Q must have the same size"))
+    return sqrt(mean(sum(abs2, P .- Q, dims=1)))
+end
 
 centroid(A::AbstractArray{<:Number}; dims=2) = mean(A; dims)
 
@@ -28,7 +32,8 @@ function superimpose(Q::AbstractArray{<:Number}, P::AbstractArray{<:Number})
     return Q̂
 end
 
-include("static.jl")
+rmsd(::typeof(superimpose), P, Q) = rmsd(superimpose(P, Q), Q)
+
 include("batched.jl")
 
 end

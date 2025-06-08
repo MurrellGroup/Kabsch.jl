@@ -1,3 +1,8 @@
+function rmsd(P::AbstractArray{<:Number,3}, Q::AbstractArray{<:Number,3})
+    size(P) == size(Q) || throw(ArgumentError("P and Q must have the same size"))
+    return vec(sqrt.(mean(sum(abs2, P .- Q, dims=1), dims=2)))
+end
+
 function batched_svd(A::AbstractArray{<:Number,3})
     U = similar(A)
     V = similar(A)

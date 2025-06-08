@@ -2,9 +2,14 @@ using Kabsch
 using Test
 
 using LinearAlgebra
-using StaticArrays
 using NNlib
 using Manifolds: Rotations
+
+using StaticArrays
+
+# ENV["KABSCH_TEST_CUDA"] = "true"
+const KABSCH_TEST_CUDA = get(ENV, "KABSCH_TEST_CUDA", "false") == "true"
+KABSCH_TEST_CUDA && begin using Pkg; Pkg.add("CUDA") end
 
 @testset "Kabsch.jl" begin
 
@@ -21,7 +26,11 @@ using Manifolds: Rotations
             @test P̂ₜ ≈ Pₜ
             @test Q̂ₜ ≈ Qₜ
 
-            @test superimpose(Q, P) ≈ P
+            @test (@inferred superimpose(Q, P)) ≈ P
+
+            @test rmsd(P, P) == 0
+            @test rmsd(P, Q) != 0
+            @test isapprox(rmsd(superimpose, P, Q), 0; atol=1e-10)
         end
 
         @testset "batched" begin
@@ -36,7 +45,11 @@ using Manifolds: Rotations
             @test P̂ₜ ≈ Pₜ
             @test Q̂ₜ ≈ Qₜ
 
-            @test superimpose(Q, P) ≈ P
+            @test (@inferred superimpose(Q, P)) ≈ P
+
+            @test all(==(0), rmsd(P, P))
+            @test all(!=(0), rmsd(P, Q))
+            @test all(x -> isapprox(x, 0; atol=1e-10), rmsd(superimpose, P, Q))
         end
 
         @testset "static" begin
@@ -50,9 +63,15 @@ using Manifolds: Rotations
             @test P̂ₜ ≈ Pₜ
             @test Q̂ₜ ≈ Qₜ
 
-            @test superimpose(Q, P) ≈ P
+            @test (@inferred superimpose(Q, P)) ≈ P
+
+            @test rmsd(P, P) == 0
+            @test rmsd(P, Q) != 0
+            @test isapprox(rmsd(superimpose, P, Q), 0; atol=1e-10)
         end
 
     end
+
+    KABSCH_TEST_CUDA && include("ext_cuda/runtests.jl")
 
 end

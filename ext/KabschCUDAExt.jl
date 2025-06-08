@@ -1,4 +1,4 @@
-module CUDAExt
+module KabschCUDAExt
 
 using Kabsch
 using CUDA
@@ -11,7 +11,7 @@ function Kabsch.batched_svd(A::CuArray{<:AbstractFloat,3})
     return U, V
 end
 
-function Kabsch.batched_det(A::CUDA.CuArray{<: Union{Float32, Float64}, 3})
+function Kabsch.batched_det(A::CuArray{<:AbstractFloat,3})
     @assert size(A, 1) == 3 && size(A, 2) == 3
     function kernel!(out, A)
         k = (CUDA.blockIdx().x - 1) * CUDA.blockDim().x + CUDA.threadIdx().x
@@ -25,7 +25,7 @@ function Kabsch.batched_det(A::CUDA.CuArray{<: Union{Float32, Float64}, 3})
     end
     n = size(A, 3)
     out = similar(A, n)
-    kernel! = CUDA.@cuda launch = false kernel!(out, A)
+    kernel! = CUDA.@cuda launch=false kernel!(out, A)
     config = CUDA.launch_configuration(kernel!.fun)
     threads = min(n, config.threads)
     kernel!(out, A; threads, blocks = cld(n, threads))

@@ -1,19 +1,20 @@
 name = "Kabsch"
 uuid = "f04b186e-52d5-4f75-9fe8-bf69181293d4"
 authors = ["Anton Oresten <antonoresten@gmail.com> and contributors"]
-version = "1.0.0-DEV"
+version = "0.1.0"
 
 [deps]
 LinearAlgebra = "37e2e46d-f89d-539d-b4ee-838fcccc9c8e"
 NNlib = "872c559c-99b0-510c-b3b7-b6c96a88d5cd"
-StaticArrays = "90137ffa-7385-5640-81b9-e52037218182"
 Statistics = "10745b16-79ce-11e8-11f9-7d13ad32a3b2"
 
 [weakdeps]
 CUDA = "052768ef-5323-5732-b1bb-66c8b64840ba"
+StaticArrays = "90137ffa-7385-5640-81b9-e52037218182"
 
 [extensions]
-CUDAExt = "CUDA"
+KabschCUDAExt = "CUDA"
+KabschStaticArraysExt = "StaticArrays"
 
 [compat]
 LinearAlgebra = "1"
@@ -21,10 +22,3 @@ NNlib = "0.9"
 StaticArrays = "1"
 Statistics = "1"
 julia = "1.10"
-
-[extras]
-Manifolds = "1cead3c2-87b3-11e9-0ccd-23c62b72b94e"
-Test = "8dfed614-e22c-5e08-85e1-65c5234f0b40"
-
-[targets]
-test = ["Test", "Manifolds"]
