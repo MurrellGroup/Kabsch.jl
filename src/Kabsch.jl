@@ -20,8 +20,7 @@ function kabsch(P::AbstractMatrix{<:Number}, Q::AbstractMatrix{<:Number})
     P′, Q′ = P .- Pₜ, Q .- Qₜ
     H = P′ * Q′'
     U, _, V = svd(H)
-    d = sign(det(U * V'))
-    V[:, end] .*= d
+    V[:, end] .*= sign(det(U * V'))
     R = U * V'
     return R, Pₜ, Qₜ
 end

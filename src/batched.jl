@@ -26,8 +26,7 @@ function kabsch(P::AbstractArray{<:Number,3}, Q::AbstractArray{<:Number,3})
     P′, Q′ = P .- Pₜ, Q .- Qₜ
     H = P′ ⊠ batched_transpose(Q′)
     U, V = batched_svd(H)
-    d = sign.(batched_det(U ⊠ batched_transpose(V)))
-    V[:, end, :] .*= d'
+    V[:, end, :] .*= sign.(batched_det(U ⊠ batched_transpose(V))')
     R = U ⊠ batched_transpose(V)
     return R, Pₜ, Qₜ
 end
