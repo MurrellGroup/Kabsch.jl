@@ -7,7 +7,7 @@ using Manifolds: Rotations
 
 using StaticArrays
 
-# ENV["KABSCH_TEST_CUDA"] = "true"
+ENV["KABSCH_TEST_CUDA"] = "true"
 const KABSCH_TEST_CUDA = get(ENV, "KABSCH_TEST_CUDA", "false") == "true"
 KABSCH_TEST_CUDA && begin using Pkg; Pkg.add("CUDA") end
 
@@ -26,11 +26,11 @@ KABSCH_TEST_CUDA && begin using Pkg; Pkg.add("CUDA") end
             @test P̂ₜ ≈ Pₜ
             @test Q̂ₜ ≈ Qₜ
 
-            @test (@inferred superimpose(Q, P)) ≈ P
+            @test (@inferred superimposed(Q, P)) ≈ P
 
             @test rmsd(P, P) == 0
             @test rmsd(P, Q) != 0
-            @test isapprox(rmsd(superimpose, P, Q), 0; atol=1e-10)
+            @test isapprox(rmsd(superimposed, P, Q), 0; atol=1e-10)
         end
 
         @testset "batched" begin
@@ -45,11 +45,11 @@ KABSCH_TEST_CUDA && begin using Pkg; Pkg.add("CUDA") end
             @test P̂ₜ ≈ Pₜ
             @test Q̂ₜ ≈ Qₜ
 
-            @test (@inferred superimpose(Q, P)) ≈ P
+            @test (@inferred superimposed(Q, P)) ≈ P
 
             @test all(==(0), rmsd(P, P))
             @test all(!=(0), rmsd(P, Q))
-            @test all(x -> isapprox(x, 0; atol=1e-10), rmsd(superimpose, P, Q))
+            @test all(x -> isapprox(x, 0; atol=1e-10), rmsd(superimposed, P, Q))
         end
 
         @testset "static" begin
@@ -63,11 +63,12 @@ KABSCH_TEST_CUDA && begin using Pkg; Pkg.add("CUDA") end
             @test P̂ₜ ≈ Pₜ
             @test Q̂ₜ ≈ Qₜ
 
-            @test (@inferred superimpose(Q, P)) ≈ P
+            @test (@inferred superimposed(Q, P)) ≈ P
+            @test superimposed(Q, P) isa typeof(Q)
 
             @test rmsd(P, P) == 0
             @test rmsd(P, Q) != 0
-            @test isapprox(rmsd(superimpose, P, Q), 0; atol=1e-10)
+            @test isapprox(rmsd(superimposed, P, Q), 0; atol=1e-10)
         end
 
     end

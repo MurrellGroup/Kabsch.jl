@@ -27,12 +27,12 @@ Q = rand(3, 10)  # Points to align
 R, P_centroid, Q_centroid = kabsch(P, Q)
 
 # Directly superimpose Q onto P
-Q_aligned = superimpose(Q, P)
+Q_aligned = superimposed(Q, P)
 ```
 
 ### Batched Operations
 
-Process multiple point sets simultaneously:
+Process multiple inputs using a batch dimension, utilizing batched operations:
 
 ```julia
 # Batched arrays (N×M×B, B batches)
@@ -67,5 +67,3 @@ Q_gpu = CUDA.rand(3, 50, 100)
 
 R_gpu, Pt_gpu, Qt_gpu = kabsch(P_gpu, Q_gpu)
 ```
-
-We find that 

@@ -20,13 +20,10 @@ function batched_det(A::AbstractArray{<:Number,3})
     return out
 end
 
-function kabsch(P::AbstractArray{<:Number,3}, Q::AbstractArray{<:Number,3})
-    N = size(P, 1); @assert size(P) == size(Q) || throw(ArgumentError("P and Q must have the same size"))
-    Pₜ, Qₜ = centroid(P), centroid(Q)
-    P′, Q′ = P .- Pₜ, Q .- Qₜ
-    H = P′ ⊠ batched_transpose(Q′)
+function kabsch_rotation(P::AbstractArray{<:Number,3}, Q::AbstractArray{<:Number,3})
+    H = P ⊠ batched_transpose(Q)
     U, V = batched_svd(H)
     V[:, end, :] .*= sign.(batched_det(U ⊠ batched_transpose(V))')
     R = U ⊠ batched_transpose(V)
-    return R, Pₜ, Qₜ
+    return R
 end

@@ -78,7 +78,7 @@ using Manifolds: Rotations
             end
         end
         
-        @testset "superimpose on GPU" begin
+        @testset "superimposed on GPU" begin
             @testset for n_dims in 3:3, n_points in n_dims:4
                 batch_size = 8
                 
@@ -93,8 +93,8 @@ using Manifolds: Rotations
                 P_gpu = CuArray(P)
                 Q_gpu = CuArray(Q)
                 
-                # Run superimpose on GPU
-                Q̂_gpu = @inferred superimpose(Q_gpu, P_gpu)
+                # Run superimposed on GPU
+                Q̂_gpu = @inferred superimposed(Q_gpu, P_gpu)
                 
                 # Transfer back to CPU for comparison
                 Q̂ = Array(Q̂_gpu)
@@ -124,7 +124,7 @@ using Manifolds: Rotations
                 # Test self-RMSD is zero
                 @test all(==(0), Array(rmsd(P_gpu, P_gpu)))
                 
-                # Test rmsd with superimpose
+                # Test rmsd with superimposed
                 R = stack(rand(Rotations(n_dims), batch_size))
                 Q = randn(Float32, n_dims, n_points, batch_size)
                 Qₜ = centroid(Q)
@@ -134,7 +134,7 @@ using Manifolds: Rotations
                 P_gpu = CuArray(P)
                 Q_gpu = CuArray(Q)
                 
-                rmsd_aligned = rmsd(superimpose, P_gpu, Q_gpu)
+                rmsd_aligned = rmsd(superimposed, P_gpu, Q_gpu)
                 @test all(x -> isapprox(x, 0; atol=1e-4), Array(rmsd_aligned))
             end
         end
