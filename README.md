@@ -5,14 +5,14 @@
 [![Build Status](https://github.com/MurrellGroup/Kabsch.jl/actions/workflows/CI.yml/badge.svg?branch=main)](https://github.com/MurrellGroup/Kabsch.jl/actions/workflows/CI.yml?query=branch%3Amain)
 [![Coverage](https://codecov.io/gh/MurrellGroup/Kabsch.jl/branch/main/graph/badge.svg)](https://codecov.io/gh/MurrellGroup/Kabsch.jl)
 
-A Julia implementation of the Kabsch algorithm for finding the optimal rotation between two sets of points.
+A Julia implementation of the Kabsch algorithm for finding the optimal rotation between paired two sets of points.
 
 ## Features
 
-- Standard Kabsch algorithm for point cloud alignment
-- Batched operations for multiple point sets
+- Standard Kabsch algorithm for alignment of two paired point sets
+- Batched operations for multiple pairs
 - StaticArrays support for optimal performance with small arrays
-- CUDA GPU acceleration for large point clouds (optional)
+- CUDA GPU acceleration for large arrays/batches (optional)
 
 ## Usage
 
