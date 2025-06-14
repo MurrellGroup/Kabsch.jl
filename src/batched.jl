@@ -27,3 +27,10 @@ function kabsch_rotation(P::AbstractArray{<:Number,3}, Q::AbstractArray{<:Number
     R = U ⊠ batched_transpose(V)
     return R
 end
+
+function superimposed(Q::AbstractArray{<:Number}, P::AbstractArray{<:Number})
+    Pₜ, Qₜ = centroid(P), centroid(Q)
+    Q_centered = centered(Q, Qₜ)
+    R = kabsch_rotation(centered(P, Pₜ), Q_centered)
+    return R ⊠ Q_centered .+ Pₜ
+end

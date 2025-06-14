@@ -32,7 +32,7 @@ function rmsd(P::AbstractMatrix{<:Number}, Q::AbstractMatrix{<:Number})
 end
 
 """
-    centroid(P)
+    centroid(P::AbstractArray{<:Number})
 
 Return the centroid of a point set `P`, reducing the second array dimension with `Statistics.mean`,
 allowing for batch dimensions.
@@ -40,7 +40,7 @@ allowing for batch dimensions.
 @inline centroid(P::AbstractArray{<:Number}) = mean(P; dims=2)
 
 """
-    centered(P)
+    centered(P::AbstractArray{<:Number})
 
 Return the point set `P` centered at the origin, allowing for batch dimensions.
 """
@@ -58,7 +58,7 @@ end
     kabsch(P, Q)
 
 Returns a rotation matrix R, and centroids of P and Q, where [`rmsd`](@ref) is minimized
-between a centered P and R applied to a centered Q.
+between a centered P, and a centered Q with rotation R applied.
 
 ```jldoctest
 julia> using Manifolds
@@ -74,14 +74,10 @@ true
 ```
 """
 function kabsch(P::AbstractArray{<:Number}, Q::AbstractArray{<:Number})
-    N = size(P, 1); @assert size(P) == size(Q) || throw(ArgumentError("P and Q must have the same size"))
     Pₜ, Qₜ = centroid(P), centroid(Q)
     R = kabsch_rotation(centered(P, Pₜ), centered(Q, Qₜ))
     return R, Pₜ, Qₜ
 end
-
-mul(A::AbstractMatrix, B::AbstractMatrix) = A * B
-mul(A::AbstractArray, B::AbstractArray) = A ⊠ B
 
 """
     superimposed(Q, P)
@@ -99,16 +95,18 @@ julia> superimposed(Q, P) ≈ P
 true
 ```
 """
-function superimposed(Q::AbstractArray{<:Number}, P::AbstractArray{<:Number})
-    R̂, Pₜ, Qₜ = kabsch(P, Q)
-    Q_superimposed = mul(R̂, centered(Q, Qₜ)) .+ Pₜ
-    return Q_superimposed
+function superimposed(Q::AbstractMatrix{<:Number}, P::AbstractMatrix{<:Number})
+    Pₜ, Qₜ = centroid(P), centroid(Q)
+    Q_centered = centered(Q, Qₜ)
+    R = kabsch_rotation(centered(P, Pₜ), Q_centered)
+    return R * Q_centered .+ Pₜ
 end
 
 """
     rmsd(::typeof(superimposed), P, Q)
 
-Return the superimposed Root Mean Square Deviation between P and Q.
+Return the Root Mean Square Deviation between P and Q when
+superimposed on each other.
 
 ```jldoctest
 julia> using Manifolds
