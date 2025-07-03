@@ -20,10 +20,6 @@ Q = R_true * centered(P) .+ randn(3)  # Rotate and translate P
 # Find optimal alignment
 R, P_centroid, Q_centroid = kabsch(P, Q)
 Q_aligned = superimposed(Q, P)
-
-# Verify perfect alignment
-@assert P ≈ Q_aligned
-@assert rmsd(superimposed, Q, P) ≈ 0
 ```
 
 ### Batched Operations
